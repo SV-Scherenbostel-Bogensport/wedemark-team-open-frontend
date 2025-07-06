@@ -19,7 +19,7 @@ const navItems = [
 </script>
 
 <template>
-  <nav class="bg-red-700 py-4 border-t border-b border-red-500">
+  <nav class="bg-red-600 py-4 border-t border-b border-red-500">
     <ul class="flex h-5 justify-center items-center">
       <template v-for="(item, index) in navItems.filter((i) => !i.hidden)" :key="index">
         <li>

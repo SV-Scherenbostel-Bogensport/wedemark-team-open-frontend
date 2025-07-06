@@ -26,7 +26,7 @@ const goBack = () => {
         @click="goBack"
         class="text-white bg-red-600 hover:bg-red-700 rounded-md px-3 py-2 transition-colors"
       >
-        <i class="pi pi-arrow-left mr-2"></i>
+        <i class="pi pi-arrow-left mr-1"></i>
         Go Back
       </button>
 
