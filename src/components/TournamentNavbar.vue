@@ -10,7 +10,7 @@ const isActiveLink = (routePath: string) => {
 const navItems = [
   { label: 'Info', to: '/' },
   { label: 'Zeitplan', to: '/schedule' },
-  { label: 'Teams', to: '/teams' },
+  { label: 'Teams', to: '/attendees' },
   { label: 'Platzierung', to: '/placement' },
   { label: 'Ergebnisse', to: '/results' },
   { label: 'Live', to: '/live', hidden: true },

@@ -1,5 +1,6 @@
 import HomeView from '@/views/HomeView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
+import AttendeesView from '@/views/AttendeesView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -9,6 +10,11 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
+    },
+    {
+      path: '/attendees',
+      name: 'attendees',
+      component: AttendeesView,
     },
     {
       path: '/:catchAll(.*)',
