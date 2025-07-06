@@ -1,11 +1,6 @@
 <script lang="ts" setup>
-import { RouterLink, useRoute } from 'vue-router'
+import { RouterLink } from 'vue-router'
 // import logo from '@/assets/img/indi.png'
-
-const isActiveLink = (routePath: string) => {
-  const route = useRoute()
-  return route.path === routePath
-}
 </script>
 
 <template>
