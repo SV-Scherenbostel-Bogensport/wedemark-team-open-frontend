@@ -48,7 +48,7 @@ const fetchTeams = async () => {
   state.error = null
 
   try {
-    const response = await axios.get('http://localhost:8080/api/wedemarkteamopen/2025/teams')
+    const response = await axios.get('/api/teams')
     state.teams = response.data
   } catch (error) {
     console.error('Error fetching teams', error)
@@ -59,7 +59,7 @@ const fetchTeams = async () => {
         // Server hat mit einem Fehlercode geantwortet
         state.error = {
           code: error.response.status,
-          message: error.response.data?.message || `Server-Fehler: ${error.response.status}`,
+          message: error.response.data?.message || 'Server-Fehler',
         }
       } else if (error.request) {
         // Request wurde gesendet, aber keine Antwort erhalten

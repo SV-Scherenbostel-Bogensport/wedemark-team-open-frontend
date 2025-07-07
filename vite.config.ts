@@ -13,6 +13,13 @@ export default defineConfig({
     host: true, // Allows access from other devices on the network
     strictPort: true, // Ensures the server will not start if the port is already in use
     open: true, // Opens the browser automatically
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '/api/wedemarkteamopen/2025'),
+      },
+    },
   },
   resolve: {
     alias: {
