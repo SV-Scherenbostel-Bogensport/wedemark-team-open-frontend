@@ -4,12 +4,10 @@ import ParticipantsTable from '@/components/ParticipantsTable.vue'
 import axios from 'axios'
 import ErrorComponent from './ErrorComponent.vue'
 
-// Konstanten
 const TOTAL_SLOTS = 8
 const TOURNAMENT_DATE = '17. August 2025'
 const REGISTRATION_DEADLINE = '01. Juni 2025'
 
-// Typen definieren
 interface Teams {
   teamId: number
   name: string
@@ -20,15 +18,10 @@ interface Teams {
   createdAt: string
 }
 
-// Teilnehmer
-// const teams = ref<Teams[]>([])
 const state = reactive({
-  teams: <Teams[]>[],
+  teams: [] as Teams[],
   isLoading: true,
-  error: null as {
-    code: string | number
-    message: string
-  } | null,
+  error: null as unknown,
 })
 
 // Berechnete Eigenschaften
@@ -39,48 +32,26 @@ const slotsStatusClass = computed(() =>
 )
 
 // Sortierte Teilnehmer (bezahlte zuerst)
-const sortedTeams = computed(() =>
-  [...state.teams].sort((a, b) => Number(b.hasPayed) - Number(a.hasPayed)),
-)
+const sortedTeams = computed(() => {
+  if (!state.teams || state.teams.length === 0) {
+    return []
+  }
+  return [...state.teams].sort((a, b) => Number(b.hasPayed) - Number(a.hasPayed))
+})
 
 const fetchTeams = async () => {
   state.isLoading = true
   state.error = null
-
   try {
     const response = await axios.get('/api/teams')
-    state.teams = response.data
+    if (response.data && Array.isArray(response.data)) {
+      state.teams = response.data
+    } else {
+      throw new Error('Ungültige Datenstruktur erhalten')
+    }
   } catch (error) {
     console.error('Error fetching teams', error)
-
-    // Error-Details aus der Axios-Response extrahieren
-    if (axios.isAxiosError(error)) {
-      if (error.response) {
-        // Server hat mit einem Fehlercode geantwortet
-        state.error = {
-          code: error.response.status,
-          message: error.response.data?.message || 'Server-Fehler',
-        }
-      } else if (error.request) {
-        // Request wurde gesendet, aber keine Antwort erhalten
-        state.error = {
-          code: 'Netzwerk-Fehler',
-          message: 'Keine Verbindung zum Server möglich',
-        }
-      } else {
-        // Anderer Axios-Fehler
-        state.error = {
-          code: 'Axios-Fehler',
-          message: error.message || 'Ein Fehler bei der Anfrage ist aufgetreten',
-        }
-      }
-    } else {
-      // Unbekannter Fehler (nicht von Axios)
-      state.error = {
-        code: 'Unbekannter Fehler',
-        message: error instanceof Error ? error.message : 'Ein unbekannter Fehler ist aufgetreten',
-      }
-    }
+    state.error = error
   } finally {
     state.isLoading = false
   }
@@ -127,8 +98,9 @@ onMounted(() => {
       <!--* Error State *-->
       <template v-else-if="state.error">
         <ErrorComponent
-          :error-code="state.error.code"
-          :error-message="state.error.message"
+          :error="state.error"
+          :show-details="true"
+          :show-retry="true"
           @retry="handleRetry"
         />
       </template>
