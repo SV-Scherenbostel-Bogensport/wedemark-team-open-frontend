@@ -13,8 +13,8 @@ export async function fetchSlotsLeft(force = false) {
 
   loading.value = true
   try {
-    const { data: count } = await axios.get<number>('/api/teams/count')
-    slotsLeft.value = TOTAL_SLOTS - count
+    const response = await axios.get<{ total: number }>('/api/teams/count')
+    slotsLeft.value = TOTAL_SLOTS - response.data.total
   } catch (e) {
     console.error('Failed to fetch slot count', e)
   } finally {
