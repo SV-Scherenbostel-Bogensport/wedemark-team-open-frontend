@@ -10,6 +10,7 @@ interface Props {
   showRetry?: boolean
   showDetails?: boolean
   error?: unknown
+  toastMessage?: string
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -18,6 +19,7 @@ const props = withDefaults(defineProps<Props>(), {
   showRetry: true,
   showDetails: false,
   error: undefined,
+  toastMessage: undefined,
 })
 
 const emit = defineEmits<{
@@ -318,19 +320,21 @@ const copyError = async () => {
 }
 
 onMounted(() => {
-  toast.error('Teilnehmerdaten konnten nicht geladen werden', {
-    timeout: 5000,
-    closeOnClick: true,
-    pauseOnFocusLoss: true,
-    pauseOnHover: false,
-    draggable: true,
-    draggablePercent: 0.6,
-    showCloseButtonOnHover: true,
-    hideProgressBar: false,
-    closeButton: 'button',
-    icon: true,
-    rtl: false,
-  })
+  if (props.toastMessage !== null) {
+    toast.error(props.toastMessage, {
+      timeout: 5000,
+      closeOnClick: true,
+      pauseOnFocusLoss: true,
+      pauseOnHover: false,
+      draggable: true,
+      draggablePercent: 0.6,
+      showCloseButtonOnHover: true,
+      hideProgressBar: false,
+      closeButton: 'button',
+      icon: true,
+      rtl: false,
+    })
+  }
 })
 </script>
 

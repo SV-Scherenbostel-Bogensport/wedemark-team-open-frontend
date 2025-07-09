@@ -99,6 +99,7 @@ onMounted(() => {
       <template v-else-if="state.error">
         <ErrorComponent
           :error="state.error"
+          toast-message="Teilnehmerdaten konnten nicht geladen werden"
           :show-details="true"
           :show-retry="true"
           @retry="handleRetry"
