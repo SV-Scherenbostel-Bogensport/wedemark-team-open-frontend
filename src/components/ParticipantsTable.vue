@@ -2,7 +2,7 @@
 import { RouterLink } from 'vue-router'
 
 // Typen definieren
-interface Teams {
+interface Team {
   teamId: number
   name: string
   contactEmail: string
@@ -14,7 +14,7 @@ interface Teams {
 
 // Props definieren
 interface Props {
-  teams: Teams[]
+  teams: Team[]
   totalSlots: number
   freeSlots: number
   registrationDeadline: string

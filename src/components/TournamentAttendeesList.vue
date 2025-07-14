@@ -2,13 +2,13 @@
 import { computed, onMounted, reactive } from 'vue'
 import ParticipantsTable from '@/components/ParticipantsTable.vue'
 import axios from 'axios'
-import ErrorComponent from './ErrorComponent.vue'
+import ErrorComponent from '@/components/ErrorComponent.vue'
 
 const TOTAL_SLOTS = 8
 const TOURNAMENT_DATE = '17. August 2025'
 const REGISTRATION_DEADLINE = '01. Juni 2025'
 
-interface Teams {
+interface Team {
   teamId: number
   name: string
   contactEmail: string
@@ -19,7 +19,7 @@ interface Teams {
 }
 
 const state = reactive({
-  teams: [] as Teams[],
+  teams: [] as Team[],
   isLoading: true,
   error: null as unknown,
 })
