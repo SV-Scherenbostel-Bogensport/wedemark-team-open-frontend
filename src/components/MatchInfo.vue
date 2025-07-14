@@ -187,7 +187,7 @@ onMounted(() => {
                 Satz 5
               </th>
               <th scope="col" class="px-2 py-1 text-center text-xs font-bold text-gray-500 w-1/17">
-                {{ state.matchInfo?.isKnockOut === true ? 'Stechpfeil' : '' }}
+                {{ state.matchInfo?.isKnockOut === true ? 'Stechen' : '' }}
               </th>
               <th scope="col" class="px-2 py-1 text-left text-xs font-bold text-gray-500 w-1/10">
                 Satzpunkte
@@ -208,7 +208,7 @@ onMounted(() => {
               <!-- Team -->
               <td class="pr-1 py-1 whitespace-nowrap">
                 <div class="text-lg font-bold text-gray-900 h-9 flex items-center pl-3">
-                  {{ state.matchInfo?.team1.name }}
+                  {{ state.matchInfo?.team1?.name }}
                 </div>
               </td>
 
@@ -282,7 +282,7 @@ onMounted(() => {
               <!-- Team -->
               <td class="pr-1 pb-1 whitespace-nowrap">
                 <div class="rounded-xs text-lg font-bold text-gray-900 h-9 flex items-center pl-3">
-                  {{ state.matchInfo?.team2.name }}
+                  {{ state.matchInfo?.team2?.name }}
                 </div>
               </td>
 
