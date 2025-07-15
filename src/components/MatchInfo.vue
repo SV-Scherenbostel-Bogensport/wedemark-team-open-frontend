@@ -201,14 +201,14 @@ onMounted(() => {
                 <div
                   class="bg-[#424242] rounded-xs text-lg font-bold text-white h-9 flex items-center justify-center"
                 >
-                  {{ state.matchInfo?.target1Code }}
+                  {{ state.matchInfo?.target1Code ?? '?' }}
                 </div>
               </td>
 
               <!-- Team -->
               <td class="pr-1 py-1 whitespace-nowrap">
                 <div class="text-lg font-bold text-gray-900 h-9 flex items-center pl-3">
-                  {{ state.matchInfo?.team1?.name }}
+                  {{ state.matchInfo?.team1?.name ?? '???' }}
                 </div>
               </td>
 
@@ -275,14 +275,14 @@ onMounted(() => {
                 <div
                   class="bg-[#424242] rounded-xs text-lg font-bold text-white flex items-center justify-center h-9"
                 >
-                  {{ state.matchInfo?.target2Code }}
+                  {{ state.matchInfo?.target2Code ?? '?' }}
                 </div>
               </td>
 
               <!-- Team -->
               <td class="pr-1 pb-1 whitespace-nowrap">
                 <div class="rounded-xs text-lg font-bold text-gray-900 h-9 flex items-center pl-3">
-                  {{ state.matchInfo?.team2?.name }}
+                  {{ state.matchInfo?.team2?.name ?? '???' }}
                 </div>
               </td>
 
