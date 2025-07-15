@@ -2,6 +2,7 @@
 import { onMounted, reactive } from 'vue'
 import axios from 'axios'
 import ErrorComponent from '@/components/ErrorComponent.vue'
+import StatusIcon from './StatusIcon.vue'
 
 interface ApiMatchInfoResponse {
   matchId: string
@@ -142,10 +143,16 @@ onMounted(() => {
   <template v-else>
     <div class="text-gray-900 px-1 py-1 max-w-6xl mx-auto">
       <div class="flex items-center justify-between translate-y-[-1px]">
-        <h2 class="text-xl font-bold flex items-center gap-2">
+        <h2 class="text-xl font-bold flex items-center">
           {{ state.matchInfo?.description }}
         </h2>
-        <div>
+        <div class="flex items-center">
+          <StatusIcon
+            class="left mr-2 h-[12px] w-[12px] translate-y-[2px]"
+            :primary-color="state.matchInfo?.status.primaryColor"
+            :secondary-color="state.matchInfo?.status.secondaryColor"
+            :pulsing="state.matchInfo?.status.pulsing"
+          />
           <span class="font-bold"> {{ state.matchInfo?.status.description }} </span>
         </div>
       </div>
@@ -155,9 +162,9 @@ onMounted(() => {
       <!-- Table Header -->
       <!-- <div class="bg-[#424242] text-white px-4 py-1.5">
       <div class="flex items-center justify-between translate-y-[-1px]">
-        <h2 class="text-xl font-bold flex items-center gap-2">{{ state.matchInfo?.match.description }}</h2>
+        <h2 class="text-xl font-bold flex items-center gap-2">{{ state.matchInfo?.description }}</h2>
         <div>
-          <span class="font-bold"> {{ state.matchInfo?.match.statusId }} </span>
+          <span class="font-bold"> {{ state.matchInfo?.status.description }} </span>
         </div>
       </div>
     </div> -->
