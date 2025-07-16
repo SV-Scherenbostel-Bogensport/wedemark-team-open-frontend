@@ -222,42 +222,62 @@ onMounted(() => {
               <!-- Satz 1 -->
               <td class="px-1 py-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(1, 'team1')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 1)?.totalTeam1 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 1)?.totalTeam1 ??
+                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                  }}
                 </span>
               </td>
 
               <!-- Satz 2 -->
               <td class="px-1 py-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(2, 'team1')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 2)?.totalTeam1 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 2)?.totalTeam1 ??
+                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                  }}
                 </span>
               </td>
 
               <!-- Satz 3 -->
               <td class="px-1 py-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(3, 'team1')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 3)?.totalTeam1 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 3)?.totalTeam1 ??
+                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                  }}
                 </span>
               </td>
 
               <!-- Satz 4 -->
               <td class="px-1 py-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(4, 'team1')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 4)?.totalTeam1 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 4)?.totalTeam1 ??
+                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                  }}
                 </span>
               </td>
 
               <!-- Satz 5 -->
               <td class="px-1 py-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(5, 'team1')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 5)?.totalTeam1 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 5)?.totalTeam1 ??
+                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                  }}
                 </span>
               </td>
 
               <!-- Stechpfeile -->
               <td class="px-1 py-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(6, 'team1')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 6)?.totalTeam1 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 6)?.totalTeam1 ??
+                    (state.matchInfo?.winnerTeamId !== null && state.matchInfo?.isKnockOut
+                      ? '-'
+                      : '')
+                  }}
                 </span>
               </td>
 
@@ -296,42 +316,62 @@ onMounted(() => {
               <!-- Satz 1 -->
               <td class="px-1 pb-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(1, 'team2')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 1)?.totalTeam2 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 1)?.totalTeam2 ??
+                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                  }}
                 </span>
               </td>
 
               <!-- Satz 2 -->
               <td class="px-1 pb-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(2, 'team2')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 2)?.totalTeam2 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 2)?.totalTeam2 ??
+                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                  }}
                 </span>
               </td>
 
               <!-- Satz 3 -->
               <td class="px-1 pb-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(3, 'team2')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 3)?.totalTeam2 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 3)?.totalTeam2 ??
+                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                  }}
                 </span>
               </td>
 
               <!-- Satz 4 -->
               <td class="px-1 pb-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(4, 'team2')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 4)?.totalTeam2 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 4)?.totalTeam2 ??
+                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                  }}
                 </span>
               </td>
 
               <!-- Satz 5 -->
               <td class="px-1 pb-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(5, 'team2')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 5)?.totalTeam2 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 5)?.totalTeam2 ??
+                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                  }}
                 </span>
               </td>
 
               <!-- Stechpfeile -->
               <td class="px-1 pb-1 whitespace-nowrap text-center">
                 <span class="text-lg font-bold" :class="getSetColorClass(6, 'team2')">
-                  {{ state.matchInfo?.sets?.find((set) => set.setIndex == 6)?.totalTeam2 }}
+                  {{
+                    state.matchInfo?.sets?.find((set) => set.setIndex == 6)?.totalTeam2 ??
+                    (state.matchInfo?.winnerTeamId !== null && state.matchInfo?.isKnockOut
+                      ? '-'
+                      : '')
+                  }}
                 </span>
               </td>
 
