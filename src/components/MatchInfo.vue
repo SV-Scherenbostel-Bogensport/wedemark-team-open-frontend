@@ -59,16 +59,16 @@ const getSetColorClass = (setIndex: number, team: 'team1' | 'team2') => {
   const currentSet = state.matchInfo.sets.find((set) => set.setIndex === setIndex)
   if (!currentSet) return 'text-gray-700'
 
-  const team1Total = currentSet.totalTeam1
-  const team2Total = currentSet.totalTeam2
+  const pointsTeam1 = currentSet.pointsTeam1
+  const pointsTeam2 = currentSet.pointsTeam2
 
   // Bei Gleichstand
-  if (team1Total === team2Total) {
+  if (pointsTeam1 === pointsTeam2) {
     return 'text-gray-700'
   }
 
   // Team 1 besser
-  if (team1Total > team2Total) {
+  if (pointsTeam1 > pointsTeam2) {
     return team === 'team1' ? 'text-green-600' : 'text-red-600'
   }
 
