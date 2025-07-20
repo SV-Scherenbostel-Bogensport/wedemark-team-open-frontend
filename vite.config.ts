@@ -13,7 +13,7 @@ export default defineConfig({
     port: 3000,
     host: true, // Allows access from other devices on the network
     strictPort: true, // Ensures the server will not start if the port is already in use
-    open: true, // Opens the browser automatically
+    open: false, // Opens the browser automatically
     proxy: {
       '/api': {
         target: 'http://localhost:3001',

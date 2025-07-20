@@ -2,7 +2,7 @@ import HomeView from '@/views/HomeView.vue'
 import NotFoundView from '@/views/NotFoundView.vue'
 import AttendeesView from '@/views/AttendeesView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import ResultView from '@/views/ResultView.vue'
+import RoundResultView from '@/views/RoundResultView.vue'
 import TargetTeamName from '@/overlays/TargetTeamName.vue'
 
 const router = createRouter({
@@ -19,9 +19,9 @@ const router = createRouter({
       component: AttendeesView,
     },
     {
-      path: '/results/round/:id',
+      path: '/results/rounds/:id',
       name: 'results by round',
-      component: ResultView,
+      component: RoundResultView,
     },
     {
       path: '/overlay/target/:targetCode/teamname',

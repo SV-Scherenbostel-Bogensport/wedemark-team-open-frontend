@@ -1,11 +1,8 @@
 <script lang="ts" setup>
 import { onMounted, reactive } from 'vue'
-import { useRoute } from 'vue-router'
 import MatchInfo from '@/components/MatchInfo.vue'
 import axios from 'axios'
 import ErrorComponent from '@/components/ErrorComponent.vue'
-
-const route = useRoute()
 
 interface RoundInfo {
   roundId: number
@@ -26,6 +23,12 @@ interface ApiMatchesResponse {
   matchIds: number[]
 }
 
+interface Props {
+  roundId: string
+}
+
+const props = defineProps<Props>()
+
 const state = reactive({
   roundInfo: null as RoundInfo | null,
   isLoading: true,
@@ -37,7 +40,7 @@ const fetchData = async () => {
   state.error = null
 
   try {
-    const roundId = route.params.id
+    const roundId = props.roundId
 
     const [roundResponse, matchesResponse] = await Promise.all([
       axios.get<ApiRoundResponse>(`/api/rounds/${roundId}`),
