@@ -3,6 +3,7 @@ import { useRoute } from 'vue-router'
 import { reactive, computed } from 'vue'
 import RoundInfo from '@/components/RoundInfo.vue'
 import PageButton from '@/components/PageButton.vue'
+import backgroundImage from '@/assets/img/banner.jpg'
 
 const route = useRoute()
 
@@ -19,6 +20,11 @@ const state = reactive({
 </script>
 
 <template>
+  <div
+    class="fixed inset-0 bg-cover bg-center bg-no-repeat brightness-30 blur-sm scale-110 -z-10"
+    :style="{ backgroundImage: `url(${backgroundImage})` }"
+  ></div>
+
   <PageButton v-if="!hideButtons" :url="state.prevRoundId.toString()" position="left">
     <i class="pi pi-arrow-left" aria-hidden="true"></i
   ></PageButton>

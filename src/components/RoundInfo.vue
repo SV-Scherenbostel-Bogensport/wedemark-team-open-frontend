@@ -71,7 +71,7 @@ onMounted(() => {
 <template>
   <!-- Header -->
   <header class="text-center mt-12 mb-8">
-    <h1 v-if="!state.isLoading && !state.error" class="text-4xl font-bold text-gray-900 mb-2">
+    <h1 v-if="!state.isLoading && !state.error" class="text-4xl font-bold text-white mb-2">
       {{ state.roundInfo?.description }}
     </h1>
   </header>

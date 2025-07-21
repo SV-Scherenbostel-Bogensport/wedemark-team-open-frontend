@@ -141,7 +141,7 @@ onMounted(() => {
 
   <!--* Success State - Match Info *-->
   <template v-else>
-    <div class="text-gray-900 px-1 py-1 max-w-6xl mx-auto">
+    <div class="text-white px-1 py-1 max-w-6xl mx-auto">
       <div class="flex items-center justify-between translate-y-[-1px]">
         <h2 class="text-xl font-bold flex items-center">
           {{ state.matchInfo?.description }}
