@@ -98,7 +98,7 @@ onMounted(() => {
   <template v-else>
     <div v-for="matchId in state.roundInfo?.matchIds" :key="matchId">
       <div class="mt-5" />
-      <MatchInfo :matchId="matchId" />
+      <MatchInfo :matchId="matchId" :auto-refresh="30" />
     </div>
   </template>
 </template>

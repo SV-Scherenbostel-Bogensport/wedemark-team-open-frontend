@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { onMounted, reactive } from 'vue'
+import { onMounted, onUnmounted, reactive, watch } from 'vue'
 import axios from 'axios'
 import ErrorComponent from '@/components/ErrorComponent.vue'
 import StatusIcon from './StatusIcon.vue'
@@ -43,6 +43,7 @@ interface Set {
 // Props definieren
 interface Props {
   matchId: number
+  autoRefresh?: number
 }
 
 const state = reactive({
@@ -51,7 +52,12 @@ const state = reactive({
   error: null as unknown,
 })
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+  autoRefresh: 0,
+})
+
+// Timer Referenz für das Auto-Refresh
+let refreshTimer: number | null = null
 
 const getSetColorClass = (setIndex: number, team: 'team1' | 'team2') => {
   if (!state.matchInfo?.sets) return 'text-gray-500'
@@ -91,7 +97,6 @@ const getSetPointsColorClass = (team: 'team1' | 'team2') => {
 }
 
 const fetchData = async () => {
-  state.isLoading = true
   state.error = null
 
   try {
@@ -111,12 +116,46 @@ const fetchData = async () => {
   }
 }
 
+const startAutoRefresh = () => {
+  if (refreshTimer) {
+    clearInterval(refreshTimer)
+    refreshTimer = null
+  }
+
+  if (props.autoRefresh > 0) {
+    refreshTimer = setInterval(() => {
+      fetchData()
+    }, props.autoRefresh * 1000) // Sekunden zu Millisekunden
+  }
+}
+
+const stopAutoRefresh = () => {
+  if (refreshTimer) {
+    clearInterval(refreshTimer)
+    refreshTimer = null
+  }
+}
+
 const handleRetry = () => {
   fetchData()
 }
 
+// Watch für Änderungen am autoRefresh Prop
+watch(
+  () => props.autoRefresh,
+  () => {
+    startAutoRefresh() // Timer neu starten mit neuen Intervall
+  },
+  { immediate: true },
+)
+
 onMounted(() => {
   fetchData()
+  startAutoRefresh()
+})
+
+onUnmounted(() => {
+  stopAutoRefresh()
 })
 </script>
 
