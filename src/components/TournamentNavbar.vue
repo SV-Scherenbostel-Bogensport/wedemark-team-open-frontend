@@ -12,7 +12,7 @@ const navItems = [
   { label: 'Zeitplan', to: '/schedule' },
   { label: 'Teams', to: '/attendees' },
   { label: 'Platzierung', to: '/placement' },
-  { label: 'Ergebnisse', to: '/results' },
+  { label: 'Ergebnisse', to: '/results/rounds/1' },
   { label: 'Live', to: '/live', hidden: true },
   { label: 'Fotos', to: '/pictures', hidden: true },
 ]
