@@ -9,7 +9,6 @@ interface ApiMatchInfoResponse {
   description: string
   team1: Team
   team2: Team
-  winnerTeamId: number
   target1Code: string
   target2Code: string
   isKnockOut: boolean
@@ -83,17 +82,37 @@ const getSetColorClass = (setIndex: number, team: 'team1' | 'team2') => {
 }
 
 const getSetPointsColorClass = (team: 'team1' | 'team2') => {
-  if (!state.matchInfo?.winnerTeamId) return 'bg-[#424242]'
+  if (!isMatchFinished()) return 'bg-[#626262]'
 
-  if (state.matchInfo.winnerTeamId == state.matchInfo.team1.teamId) {
-    return team === 'team1' ? 'bg-[rgb(0,200,0)]' : 'bg-[rgb(200,0,0)]'
+  const team1Points = getTotalPoints('team1')
+  const team2Points = getTotalPoints('team2')
+
+  if (team1Points === team2Points) return 'bg-[#424242]'
+
+  const isTeam1Winner = team1Points > team2Points
+  const isCurrentTeamWinner = (team === 'team1') === isTeam1Winner
+
+  return isCurrentTeamWinner ? 'bg-[rgb(0,200,0)]' : 'bg-[rgb(200,0,0)]'
+}
+
+const isMatchFinished = () => {
+  const FINISHED_STATES = ['ENDED', 'CANCELED']
+  return FINISHED_STATES.includes(state.matchInfo?.status?.label ?? '')
+}
+
+const getSetFiller = (shootOf = false) => {
+  if (isMatchFinished() && !shootOf) {
+    return '-'
   }
+  return ''
+}
 
-  if (state.matchInfo.winnerTeamId == state.matchInfo.team2.teamId) {
-    return team === 'team1' ? 'bg-[rgb(200,0,0)]' : 'bg-[rgb(0,200,0)]'
-  }
-
-  return 'bg-[#626262]'
+const getTotalPoints = (team: 'team1' | 'team2') => {
+  return (
+    state.matchInfo?.sets.reduce((sum, set) => {
+      return sum + (team === 'team1' ? (set.pointsTeam1 ?? 0) : (set.pointsTeam2 ?? 0))
+    }, 0) ?? 0
+  )
 }
 
 const fetchData = async () => {
@@ -263,7 +282,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(1, 'team1')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 1)?.totalTeam1 ??
-                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                    getSetFiller()
                   }}
                 </span>
               </td>
@@ -273,7 +292,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(2, 'team1')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 2)?.totalTeam1 ??
-                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                    getSetFiller()
                   }}
                 </span>
               </td>
@@ -283,7 +302,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(3, 'team1')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 3)?.totalTeam1 ??
-                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                    getSetFiller()
                   }}
                 </span>
               </td>
@@ -293,7 +312,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(4, 'team1')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 4)?.totalTeam1 ??
-                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                    getSetFiller()
                   }}
                 </span>
               </td>
@@ -303,7 +322,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(5, 'team1')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 5)?.totalTeam1 ??
-                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                    getSetFiller()
                   }}
                 </span>
               </td>
@@ -313,9 +332,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(6, 'team1')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 6)?.totalTeam1 ??
-                    (state.matchInfo?.winnerTeamId !== null && state.matchInfo?.isKnockOut
-                      ? '-'
-                      : '')
+                    getSetFiller(true)
                   }}
                 </span>
               </td>
@@ -326,11 +343,7 @@ onUnmounted(() => {
                   class="rounded-xs text-lg font-bold text-white h-9 flex items-center justify-center"
                   :class="getSetPointsColorClass('team1')"
                 >
-                  {{
-                    state.matchInfo?.sets.reduce((sum, set) => {
-                      return sum + (set.pointsTeam1 || 0)
-                    }, 0)
-                  }}
+                  {{ getTotalPoints('team1') }}
                 </div>
               </td>
             </tr>
@@ -357,7 +370,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(1, 'team2')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 1)?.totalTeam2 ??
-                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                    getSetFiller()
                   }}
                 </span>
               </td>
@@ -367,7 +380,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(2, 'team2')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 2)?.totalTeam2 ??
-                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                    getSetFiller()
                   }}
                 </span>
               </td>
@@ -377,7 +390,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(3, 'team2')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 3)?.totalTeam2 ??
-                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                    getSetFiller()
                   }}
                 </span>
               </td>
@@ -387,7 +400,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(4, 'team2')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 4)?.totalTeam2 ??
-                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                    getSetFiller()
                   }}
                 </span>
               </td>
@@ -397,7 +410,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(5, 'team2')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 5)?.totalTeam2 ??
-                    (state.matchInfo?.winnerTeamId !== null ? '-' : '')
+                    getSetFiller()
                   }}
                 </span>
               </td>
@@ -407,9 +420,7 @@ onUnmounted(() => {
                 <span class="text-lg font-bold" :class="getSetColorClass(6, 'team2')">
                   {{
                     state.matchInfo?.sets?.find((set) => set.setIndex == 6)?.totalTeam2 ??
-                    (state.matchInfo?.winnerTeamId !== null && state.matchInfo?.isKnockOut
-                      ? '-'
-                      : '')
+                    getSetFiller(true)
                   }}
                 </span>
               </td>
@@ -420,11 +431,7 @@ onUnmounted(() => {
                   class="rounded-xs text-lg font-bold text-white h-9 flex items-center justify-center"
                   :class="getSetPointsColorClass('team2')"
                 >
-                  {{
-                    state.matchInfo?.sets.reduce((sum, set) => {
-                      return sum + (set.pointsTeam2 || 0)
-                    }, 0)
-                  }}
+                  {{ getTotalPoints('team2') }}
                 </div>
               </td>
             </tr>
