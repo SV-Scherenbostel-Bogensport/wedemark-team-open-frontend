@@ -97,7 +97,7 @@ onUnmounted(() => {
   position: relative;
   width: 400px;
   height: 400px;
-  margin: 40px;
+  margin: 50px;
   border-radius: 25px;
   overflow: hidden;
   transition:
