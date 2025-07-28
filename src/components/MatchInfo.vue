@@ -101,7 +101,7 @@ const isMatchFinished = () => {
 }
 
 const getSetFiller = (shootOf = false) => {
-  if (isMatchFinished() && !shootOf) {
+  if (isMatchFinished() && ((shootOf && state.matchInfo?.isKnockOut) || !shootOf)) {
     return '-'
   }
   return ''
