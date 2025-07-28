@@ -4,6 +4,7 @@ import AttendeesView from '@/views/AttendeesView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import RoundResultView from '@/views/RoundResultView.vue'
 import TargetTeamName from '@/overlays/TargetTeamName.vue'
+import TargetCode from '@/overlays/TargetCode.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,12 @@ const router = createRouter({
       path: '/overlay/target/:targetCode/teamname',
       name: 'OVERLAY target-teamname',
       component: TargetTeamName,
+      props: true,
+    },
+    {
+      path: '/overlay/target/:targetCode/target',
+      name: 'OVERLAY target-code',
+      component: TargetCode,
       props: true,
     },
     {

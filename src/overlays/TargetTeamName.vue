@@ -74,10 +74,12 @@ onUnmounted(() => {
 <template>
   <div class="overlay-container">
     <div class="team-box" v-if="teamName && !error">
-      <span class="team-name">{{ teamName }}</span>
+      <span class="team-name translate-y-[-5px]">{{ teamName }}</span>
     </div>
     <div class="team-box error" v-else-if="error || isLoading">
-      <span class="team-name">{{ errorMessage || 'Fehler beim Laden der Daten' }}</span>
+      <span class="team-name translate-y-[-5px]">{{
+        errorMessage || 'Fehler beim Laden der Daten'
+      }}</span>
     </div>
   </div>
 </template>
@@ -87,8 +89,8 @@ onUnmounted(() => {
   position: fixed;
   top: 0;
   left: 0;
-  width: 1000px;
-  height: 150px;
+  width: 10000px;
+  height: 250px;
   pointer-events: none;
   z-index: 9999;
   display: flex;
@@ -97,20 +99,21 @@ onUnmounted(() => {
 }
 
 .team-box {
-  /* min-width: 500px; */
-  max-width: 980px;
-  height: 130px;
+  position: relative;
+  height: 200px;
+  margin: 25px;
   background-color: rgba(0, 0, 0, 0.75);
-  border-radius: 6px;
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0.4vh 1.5vh rgba(0, 0, 0, 0.3);
+  border-radius: 12.5px;
+  backdrop-filter: blur(10%);
+  box-shadow:
+    0 0.4% 1.5% rgba(0, 0, 0, 0.3),
+    inset 0 0 2% rgba(255, 255, 255, 0.05);
+  border: 5px solid rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  margin: 10px;
-  padding: 2em;
+  padding: 0em 3em;
   box-sizing: border-box;
   transition:
     width 0.5s ease,
@@ -130,15 +133,26 @@ onUnmounted(() => {
 
 .team-name {
   color: white;
+  height: 100%;
+  width: 100%;
   font-weight: bold;
-  display: block;
-  font-size: 3em;
+  text-align: center;
   line-height: 1;
+  font-size: clamp(100px, 50vw, 100px);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: text-shadow 0.5s ease;
   transition: font-size 0.4s ease;
 }
 
 .team-box.error .team-name {
-  font-size: x-large;
+  font-size: clamp(50px, 25vw, 50px);
 }
 
 /*** Animation für smooth appearance ***/
