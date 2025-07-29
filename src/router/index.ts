@@ -4,6 +4,7 @@ import AttendeesView from '@/views/AttendeesView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import RoundResultView from '@/views/RoundResultView.vue'
 import TargetTeamName from '@/overlays/TargetTeamName.vue'
+import PlacementView from '@/views/PlacementView.vue'
 import TargetCode from '@/overlays/TargetCode.vue'
 
 const router = createRouter({
@@ -23,6 +24,11 @@ const router = createRouter({
       path: '/results/rounds/:id',
       name: 'results by round',
       component: RoundResultView,
+    },
+    {
+      path: '/placement',
+      name: 'placement',
+      component: PlacementView,
     },
     {
       path: '/overlay/target/:targetCode/teamname',
