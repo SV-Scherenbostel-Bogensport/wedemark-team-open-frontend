@@ -1,219 +1,130 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { onMounted, reactive, computed } from 'vue'
+import axios from 'axios'
+import ErrorComponent from '@/components/ErrorComponent.vue'
+import QualificationPlacementTable from './QualificationPlacementTable.vue';
 
-// Simulierte API-Daten mit eindeutigen IDs für das Tracking
-const leaderboardData = ref([
-  {
-    id: 1,
-    position: 1,
-    team: 'Drei Blonde und nen Riese',
-    sets: '55 : 01',
-    difference: 54,
-    points: '10 : 20',
-    average: 'XX.X',
-    perArrow: 'X.XXX',
-  },
-  {
-    id: 2,
-    position: 2,
-    team: 'Die Bogenschützen',
-    sets: '45 : 15',
-    difference: 30,
-    points: '18 : 12',
-    average: '8.5',
-    perArrow: '2.125',
-  },
-  {
-    id: 3,
-    position: 3,
-    team: 'Pfeil & Bogen',
-    sets: '40 : 20',
-    difference: 20,
-    points: '15 : 15',
-    average: '7.8',
-    perArrow: '1.950',
-  },
-  {
-    id: 4,
-    position: 4,
-    team: 'Pfeil & Bogen',
-    sets: '40 : 20',
-    difference: 20,
-    points: '15 : 15',
-    average: '7.8',
-    perArrow: '1.950',
-  },
-  {
-    id: 5,
-    position: 5,
-    team: 'Pfeil & Bogen',
-    sets: '40 : 20',
-    difference: 20,
-    points: '15 : 15',
-    average: '7.8',
-    perArrow: '1.950',
-  },
-  {
-    id: 6,
-    position: 6,
-    team: 'Pfeil & Bogen',
-    sets: '40 : 20',
-    difference: 20,
-    points: '15 : 15',
-    average: '7.8',
-    perArrow: '1.950',
-  },
-  {
-    id: 7,
-    position: 7,
-    team: 'Pfeil & Bogen',
-    sets: '40 : 20',
-    difference: 20,
-    points: '15 : 15',
-    average: '7.8',
-    perArrow: '1.950',
-  },
-  {
-    id: 8,
-    position: 8,
-    team: 'Pfeil & Bogen',
-    sets: '40 : 20',
-    difference: 20,
-    points: '15 : 15',
-    average: '7.8',
-    perArrow: '1.950',
-  },
-])
+interface PlacementRound {
+  roundId: number
+  description: string
+  isKnockOut: boolean
+  updatedAt: string
+}
 
-// Sortierte Daten basierend auf Position
-const sortedData = computed(() => {
-  return [...leaderboardData.value].sort((a, b) => a.position - b.position)
+interface QualificationPlacement {
+  place: number
+  team: Team
+  totalMatchPoints: Points
+  totalSetPoints: Points
+  averageSetScore: number
+}
+
+interface Team {
+  teamId: number,
+  name: string
+}
+
+interface Points {
+  won: number,
+  lost: number
+}
+
+interface PlacementResponse {
+  round: PlacementRound
+  qualificationPlacements: QualificationPlacement[]
+}
+
+const state = reactive({
+  placementResponse: null as PlacementResponse | null,
+  isLoading: true,
+  error: null as unknown,
 })
 
-// Funktion zum Simulieren von Platzierungsänderungen (für Testzwecke)
-const shufflePositions = () => {
-  const data = [...leaderboardData.value]
+// Computed properties für bessere Performance
+const roundDescription = computed(() =>
+  state.placementResponse?.round?.description || 'Qualifikationsrunde'
+)
 
-  // Zufällige neue Positionen zuweisen
-  const positions = [1, 2, 3, 4, 5, 6, 7, 8]
-  data.forEach((entry) => {
-    const randomIndex = Math.floor(Math.random() * positions.length)
-    entry.position = positions.splice(randomIndex, 1)[0]
-  })
+const placements = computed(() =>
+  state.placementResponse?.qualificationPlacements || []
+)
 
-  leaderboardData.value = data
+const fetchPlacement = async (): Promise<void> => {
+  state.isLoading = true
+  state.error = null
+  try {
+    const response = await axios.get<PlacementResponse>('/api/placement/qualification')
+    if (response.data && response.data.round && response.data.qualificationPlacements) {
+      state.placementResponse = response.data
+    } else {
+      throw new Error('Ungültige Datenstruktur erhalten')
+    }
+  } catch (error) {
+    console.error('Error fetching placement:', error)
+    state.error = error
+  } finally {
+    state.isLoading = false
+  }
 }
+
+const handleRetry = () => {
+  fetchPlacement()
+}
+
+onMounted(() => {
+  fetchPlacement()
+})
 </script>
 
 <template>
-  <!-- Test Button (später entfernen) -->
-  <div class="mb-4 text-center">
-    <button
-      @click="shufflePositions"
-      class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md font-medium"
-    >
-      Positionen ändern (Test)
-    </button>
-  </div>
+  <div class="pt-16 bg-gray-50 py-8">
+    <div class="container mx-auto px-4">
 
-  <!-- Table Container -->
-  <div class="bg-white rounded-md shadow-md overflow-hidden max-w-6xl mx-auto">
-    <div class="overflow-x-auto">
-      <table class="w-full border-separate border-spacing-y-0">
-        <!-- Table Head -->
-        <thead class="bg-gray-200">
-          <tr>
-            <th class="px-2 py-1 text-left text-xs font-bold text-gray-500 w-[10%]">Platz</th>
-            <th class="px-2 py-1 text-left text-xs font-bold text-gray-500">Team</th>
-            <th class="px-2 py-1 text-center text-xs font-bold text-gray-500 w-[8%]">Sätze</th>
-            <th class="px-2 py-1 text-center text-xs font-bold text-gray-500 w-[8%]">Differenz</th>
-            <th class="px-2 py-1 text-center text-xs font-bold text-gray-500 w-[8%]">Punkte</th>
-            <th class="px-2 py-1 w-[5%]" />
-            <th class="px-2 py-1 text-center text-xs font-bold text-gray-500 w-[8%]">
-              Durchschnitt
-            </th>
-            <th class="px-2 py-1 text-center text-xs font-bold text-gray-500 w-[8%]">pro Pfeil</th>
-          </tr>
-        </thead>
+      <!--* Loading State *-->
+      <template v-if="state.isLoading">
+        <div class="flex justify-center items-center py-12">
+          <VueSpinner size="60" color="red" />
+        </div>
+      </template>
 
-        <!-- Table Body -->
-        <TransitionGroup
-          name="leaderboard"
-          tag="tbody"
-          class="bg-white [&>tr>td]:py-1 [&>tr:not(:first-child)>td]:pt-0"
-        >
-          <tr
-            v-for="(entry, index) in sortedData"
-            :key="entry.id"
-            class="h-10 transition-all duration-1000 ease-in-out"
-          >
-            <!-- Position -->
-            <td
-              class="px-1 py-1 whitespace-nowrap text-center"
-              :class="{ 'pb-1': index === sortedData.length - 1 }"
-            >
-              <div
-                class="bg-[#424242] rounded-xs text-lg font-bold text-white h-9 flex items-center justify-center"
-              >
-                {{ entry.position }}
-              </div>
-            </td>
+      <!--* Error State *-->
+      <template v-else-if="state.error">
+        <ErrorComponent
+          :error="state.error"
+          toast-message="Rangliste konnten nicht geladen werden"
+          :show-details="true"
+          :show-retry="true"
+          @retry="handleRetry"
+        />
+      </template>
 
-            <!-- Team -->
-            <td
-              class="pr-1 py-1 whitespace-nowrap"
-              :class="{ 'pb-1': index === sortedData.length - 1 }"
-            >
-              <div class="text-lg font-bold text-gray-900 h-9 flex items-center pl-3">
-                {{ entry.team }}
-              </div>
-            </td>
+      <!--* Success State *-->
+      <template v-else>
+        <!-- Rundeninformation -->
+        <header class="text-center mb-16">
+          <h1 class="text-4xl font-bold text-gray-900">
+            Platzierung nach der {{ roundDescription }}
+          </h1>
+        </header>
 
-            <!-- Sets -->
-            <td
-              class="px-1 py-1 whitespace-nowrap text-center"
-              :class="{ 'pb-1': index === sortedData.length - 1 }"
-            >
-              <span class="text-lg font-bold">{{ entry.sets }}</span>
-            </td>
+        <!-- Platzieurng -->
+        <QualificationPlacementTable
+          :placements= "placements"
+        />
 
-            <!-- Difference -->
-            <td
-              class="px-1 py-1 whitespace-nowrap text-center"
-              :class="{ 'pb-1': index === sortedData.length - 1 }"
-            >
-              <span class="text-lg font-bold">{{ entry.difference }}</span>
-            </td>
+        <!-- Zusätzliche Informationen -->
+        <div class="mt-8 text-center text-sm text-gray-500">
+          <p v-if="state.placementResponse?.round?.updatedAt">
+            Stand: {{ new Date(state.placementResponse.round.updatedAt).toLocaleString('de-DE') }}
+          </p>
+          <p v-if="state.placementResponse?.round.isKnockOut" class="text-red-600 font-medium mt-1">
+              ⚠️ K.O.-Runde
+          </p>
+        </div>
+      </template>
 
-            <!-- Points -->
-            <td
-              class="px-1 py-1 whitespace-nowrap text-center"
-              :class="{ 'pb-1': index === sortedData.length - 1 }"
-            >
-              <span class="text-lg font-extrabold">{{ entry.points }}</span>
-            </td>
-
-            <!-- Spacer -->
-            <td :class="{ 'pb-1': index === sortedData.length - 1 }" />
-
-            <!-- Average -->
-            <td
-              class="px-1 py-1 whitespace-nowrap text-center"
-              :class="{ 'pb-1': index === sortedData.length - 1 }"
-            >
-              <span class="text-lg font-bold">{{ entry.average }}</span>
-            </td>
-
-            <!-- Per Arrow -->
-            <td
-              class="px-1 py-1 whitespace-nowrap text-center"
-              :class="{ 'pb-1': index === sortedData.length - 1 }"
-            >
-              <span class="text-lg font-bold">{{ entry.perArrow }}</span>
-            </td>
-          </tr>
-        </TransitionGroup>
-      </table>
+      <!-- Spacer -->
+      <div class="mb-48" />
     </div>
   </div>
 </template>

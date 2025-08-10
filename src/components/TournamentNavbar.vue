@@ -1,17 +1,28 @@
 <script lang="ts" setup>
 import { RouterLink, useRoute } from 'vue-router'
+import PlacementNavbar from './PlacementNavbar.vue'
 // import logo from '@/assets/img/indi.png'
 
-const isActiveLink = (routePath: string) => {
+const isActiveLink = (routePath: string, hasSubpages: boolean = false) => {
   const route = useRoute()
-  return route.path === routePath
+
+  if (hasSubpages) {
+    return route.path.startsWith(routePath)
+  } else {
+    return route.path === routePath
+  }
+}
+
+const isActivePlacement = () => {
+  const route = useRoute()
+  return route.path.startsWith('/placement')
 }
 
 const navItems = [
   { label: 'Info', to: '/' },
   { label: 'Zeitplan', to: '/schedule' },
   { label: 'Teams', to: '/attendees' },
-  { label: 'Platzierung', to: '/placement' },
+  { label: 'Platzierung', to: '/placement', hasSubpages: true },
   { label: 'Ergebnisse', to: '/results/rounds/1' },
   { label: 'Live', to: '/live', hidden: true },
   { label: 'Fotos', to: '/pictures', hidden: true },
@@ -26,14 +37,13 @@ const navItems = [
           <RouterLink
             :to="item.to"
             :class="[
-              isActiveLink(item.to) ? 'underline' : 'hover:underline',
+              isActiveLink(item.to, item.hasSubpages) ? 'underline' : 'hover:underline',
               'text-white font-extrabold px-4 py-2 rounded-md uppercase text-lg',
             ]"
           >
             {{ item.label }}
           </RouterLink>
         </li>
-
         <!-- Trennpunkt zwischen den Einträgen -->
         <li v-if="index !== navItems.filter((i) => !i.hidden).length - 1" aria-hidden="true">
           <span class="text-white select-none">•</span>
@@ -41,4 +51,8 @@ const navItems = [
       </template>
     </ul>
   </nav>
+
+  <template v-if="isActivePlacement()">
+    <PlacementNavbar />
+  </template>
 </template>

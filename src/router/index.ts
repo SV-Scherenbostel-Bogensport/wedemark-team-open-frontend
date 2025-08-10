@@ -4,7 +4,8 @@ import AttendeesView from '@/views/AttendeesView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import RoundResultView from '@/views/RoundResultView.vue'
 import TargetTeamName from '@/overlays/TargetTeamName.vue'
-import PlacementView from '@/views/PlacementView.vue'
+import QualificationPlacementView from '@/views/QualificationPlacementView.vue'
+import FinalPlacementView from '@/views/FinalPlacementView.vue'
 import TargetCode from '@/overlays/TargetCode.vue'
 
 const router = createRouter({
@@ -27,8 +28,17 @@ const router = createRouter({
     },
     {
       path: '/placement',
-      name: 'placement',
-      component: PlacementView,
+      redirect: {name: 'qualification placement'}
+    },
+    {
+      path: '/placement/qualification',
+      name: 'qualification placement',
+      component: QualificationPlacementView,
+    },
+    {
+      path: '/placement/final',
+      name: 'final placement',
+      component: FinalPlacementView,
     },
     {
       path: '/overlay/target/:targetCode/teamname',
