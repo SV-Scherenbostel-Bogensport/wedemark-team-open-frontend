@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-
 interface QualificationPlacement {
-  place: number
+  place: number | null
   team: Team
   totalMatchPoints: Points
   totalSetPoints: Points
@@ -9,12 +8,12 @@ interface QualificationPlacement {
 }
 
 interface Team {
-  teamId: number,
+  teamId: number
   name: string
 }
 
 interface Points {
-  won: number,
+  won: number
   lost: number
 }
 
@@ -24,19 +23,18 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const getPlaceNumberClass = (place: number) => {
+const getPlaceNumberClass = (place: number | null) => {
   switch (place) {
     case 1:
-      return "bg-[#FFD700]"
+      return 'bg-[#FFD700]'
     case 2:
-      return "bg-[#C0C0C0]"
+      return 'bg-[#C0C0C0]'
     case 3:
-      return "bg-[#BF8970]"
+      return 'bg-[#BF8970]'
     default:
-      return "bg-zinc-600"
+      return 'bg-zinc-600'
   }
 }
-
 </script>
 
 <template>
@@ -84,7 +82,7 @@ const getPlaceNumberClass = (place: number) => {
             >
               Matchpunkte
             </th>
-            <th class="w-[5%]"/>
+            <th class="w-[5%]" />
             <th
               scope="col"
               class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-[8%]"
@@ -100,17 +98,16 @@ const getPlaceNumberClass = (place: number) => {
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
-
           <tr
-          v-for="placement in props.placements"
-          :key="placement.place"
-          class="hover:bg-gray-50 transition-colors"
+            v-for="placement in props.placements"
+            :key="placement.team.teamId"
+            class="hover:bg-gray-50 transition-colors"
           >
             <!-- Place -->
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="flex items-center">
                 <div
-                :class="[
+                  :class="[
                     'w-8 h-8 text-white rounded-full flex items-center justify-center font-bold',
                     getPlaceNumberClass(placement.place),
                   ]"
@@ -139,7 +136,7 @@ const getPlaceNumberClass = (place: number) => {
             <!-- Difference -->
             <td class="px-3 py-4 whitespace-nowrap text-center">
               <div class="font-medium text-gray-900">
-                {{ placement.totalSetPoints.won - placement.totalSetPoints.lost}}
+                {{ placement.totalSetPoints.won - placement.totalSetPoints.lost }}
               </div>
             </td>
 
