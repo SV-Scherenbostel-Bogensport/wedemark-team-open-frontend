@@ -87,7 +87,7 @@ const getPlaceNumberClass = (place: number | null) => {
               scope="col"
               class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-[8%]"
             >
-              Durchschnitt
+              Schnitt
             </th>
             <th
               scope="col"

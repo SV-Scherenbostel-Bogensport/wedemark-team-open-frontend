@@ -101,19 +101,19 @@ const getLiveCountClass = (lives: number, place: number | null) => {
             >
               Satzdifferenz
             </th>
-            <th class="w-[2%]" />
+            <th class="w-[3%]" />
             <th
               scope="col"
               class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-[8%]"
             >
               Leben
             </th>
-            <th class="w-[2%]" />
+            <th class="w-[3%]" />
             <th
               scope="col"
               class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-[8%]"
             >
-              Durchschnitt
+              Schnitt
             </th>
             <th
               scope="col"
