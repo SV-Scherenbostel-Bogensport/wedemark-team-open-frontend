@@ -26,6 +26,7 @@ const navItems = [
   { label: 'Ergebnisse', to: '/results/rounds/1' },
   { label: 'Live', to: '/live', hidden: true },
   { label: 'Fotos', to: '/pictures', hidden: true },
+  { label: 'Showcase', to: '/showcase' },
 ]
 </script>
 

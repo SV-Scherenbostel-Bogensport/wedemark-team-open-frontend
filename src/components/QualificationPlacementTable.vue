@@ -50,54 +50,41 @@ const getPlaceNumberClass = (place: number | null) => {
     <!-- Table Content -->
     <div class="overflow-x-auto">
       <table class="w-full">
-        <thead class="bg-gray-100 bg-">
+        <thead class="bg-gray-100">
           <tr>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-[10%]"
-            >
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase w-[10%]">
               Platz
             </th>
-            <th
-              scope="col"
-              class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
+            <th class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase">
               Verein / Teamname
             </th>
-            <th
-              scope="col"
-              class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-[8%]"
-            >
+            <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase w-[8%]">
               Satzpunkte
             </th>
-            <th
-              scope="col"
-              class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-[8%]"
-            >
+            <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase w-[8%]">
               Satzdifferenz
             </th>
-            <th
-              scope="col"
-              class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-[8%]"
-            >
+            <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase w-[8%]">
               Matchpunkte
             </th>
             <th class="w-[5%]" />
-            <th
-              scope="col"
-              class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-[8%]"
-            >
+            <th class="px-3 py-3 text-center text-xs font-medium text-gray-500 uppercase w-[8%]">
               Schnitt
             </th>
             <th
-              scope="col"
-              class="pl-3 pr-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-[10%]"
+              class="pl-3 pr-6 py-3 text-center text-xs font-medium text-gray-500 uppercase w-[10%]"
             >
               pro Pfeil
             </th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+
+        <!-- Transition Group ersetzt tbody -->
+        <transition-group
+          tag="tbody"
+          name="placement-move"
+          class="bg-white divide-y divide-gray-200 text-[17px]"
+        >
           <tr
             v-for="placement in props.placements"
             :key="placement.team.teamId"
@@ -135,7 +122,17 @@ const getPlaceNumberClass = (place: number | null) => {
 
             <!-- Difference -->
             <td class="px-3 py-4 whitespace-nowrap text-center">
-              <div class="font-medium text-gray-900">
+              <div
+                :class="[
+                  'font-medium',
+                  placement.totalSetPoints.won - placement.totalSetPoints.lost > 0
+                    ? 'text-green-700'
+                    : placement.totalSetPoints.won - placement.totalSetPoints.lost < 0
+                      ? 'text-red-700'
+                      : 'text-gray-900',
+                ]"
+              >
+                {{ placement.totalSetPoints.won - placement.totalSetPoints.lost > 0 ? '+' : '' }}
                 {{ placement.totalSetPoints.won - placement.totalSetPoints.lost }}
               </div>
             </td>
@@ -164,8 +161,14 @@ const getPlaceNumberClass = (place: number | null) => {
               </div>
             </td>
           </tr>
-        </tbody>
+        </transition-group>
       </table>
     </div>
   </div>
 </template>
+
+<style scoped>
+.placement-move-move {
+  transition: transform 0.6s ease;
+}
+</style>

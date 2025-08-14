@@ -81,7 +81,7 @@ const getFreeSlotNumber = (index: number) => props.totalSlots - props.freeSlots 
             </th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <tbody class="bg-white divide-y divide-gray-200 text-[17px]">
           <!-- Teams -->
           <tr
             v-for="(team, index) in teams"

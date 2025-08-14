@@ -69,7 +69,7 @@ const getLiveCountClass = (lives: number, place: number | null) => {
     <!-- Table Content -->
     <div class="overflow-x-auto">
       <table class="w-full">
-        <thead class="bg-gray-100 bg-">
+        <thead class="bg-gray-100">
           <tr>
             <th
               scope="col"
@@ -123,7 +123,11 @@ const getLiveCountClass = (lives: number, place: number | null) => {
             </th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
+        <transition-group
+          tag="tbody"
+          name="placement-move"
+          class="bg-white divide-y divide-gray-200 text-[17px]"
+        >
           <tr
             v-for="placement in props.placements"
             :key="placement.team.teamId"
@@ -206,8 +210,14 @@ const getLiveCountClass = (lives: number, place: number | null) => {
               </div>
             </td>
           </tr>
-        </tbody>
+        </transition-group>
       </table>
     </div>
   </div>
 </template>
+
+<style scoped>
+.placement-move-move {
+  transition: transform 0.6s ease;
+}
+</style>

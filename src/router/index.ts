@@ -7,6 +7,9 @@ import TargetTeamName from '@/overlays/TargetTeamName.vue'
 import QualificationPlacementView from '@/views/QualificationPlacementView.vue'
 import FinalPlacementView from '@/views/FinalPlacementView.vue'
 import TargetCode from '@/overlays/TargetCode.vue'
+import ShowcaseRoundResultView from '@/views/ShowcaseRoundResultView.vue'
+import ShowCaseView from '@/views/ShowCaseView.vue'
+import ShowcasePlacement from '@/views/ShowcasePlacementView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -23,12 +26,27 @@ const router = createRouter({
     },
     {
       path: '/results/rounds/:id',
-      name: 'results by round',
+      name: 'results by round TODO: auf /results ändern später',
       component: RoundResultView,
     },
     {
+      path: '/showcase/results',
+      name: 'showcase: results by round',
+      component: ShowcaseRoundResultView,
+    },
+    {
+      path: '/showcase/placement',
+      name: 'showcase: current placement',
+      component: ShowcasePlacement,
+    },
+    {
+      path: '/showcase',
+      name: 'showcase overview',
+      component: ShowCaseView,
+    },
+    {
       path: '/placement',
-      redirect: {name: 'qualification placement'}
+      redirect: { name: 'qualification placement' },
     },
     {
       path: '/placement/qualification',
