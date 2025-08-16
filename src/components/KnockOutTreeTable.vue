@@ -33,6 +33,12 @@ interface TreeMatch {
   team2MatchPoints: 0
 }
 
+interface BgStyle {
+  backgroundColor: string
+  borderColor: string
+  [key: `--${string}`]: string
+}
+
 interface Props {
   placements: TreePlacementResponse
 }
@@ -48,6 +54,47 @@ function getMatchById(matchId: number): TreeMatch | null {
 function getRoundById(roundId: number): Round | null {
   const round = props.placements.rounds.find((m) => m.roundId === roundId)
   return round || null
+}
+
+// Hauptfunktion für Hintergrund-Styles
+function getBgClass(roundId: number): BgStyle {
+  const round = getRoundById(roundId)
+  if (!round?.status?.primaryColor) {
+    return {
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      borderColor: 'rgba(0, 0, 0, 1)',
+    } // Fallback
+  }
+
+  return {
+    backgroundColor: hexToRgba(round.status.primaryColor, 0.6),
+    borderColor: round.status.primaryColor,
+  }
+}
+
+// Konvertiert Hex-Farbe zu rgba mit Alpha-Wert
+function hexToRgba(hex: string, alpha: number = 1): string {
+  if (!hex) return `rgba(0, 0, 0, ${alpha})`
+
+  // Entferne # falls vorhanden
+  const cleanHex: string = hex.replace('#', '')
+
+  // Unterstütze sowohl 3-stellige als auch 6-stellige Hex-Werte
+  let r: number, g: number, b: number
+
+  if (cleanHex.length === 3) {
+    r = parseInt(cleanHex[0] + cleanHex[0], 16)
+    g = parseInt(cleanHex[1] + cleanHex[1], 16)
+    b = parseInt(cleanHex[2] + cleanHex[2], 16)
+  } else if (cleanHex.length === 6) {
+    r = parseInt(cleanHex.slice(0, 2), 16)
+    g = parseInt(cleanHex.slice(2, 4), 16)
+    b = parseInt(cleanHex.slice(4, 6), 16)
+  } else {
+    return `rgba(0, 0, 0, ${alpha})` // Fallback
+  }
+
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }
 
 function initScrollingText(): void {
@@ -182,16 +229,17 @@ th {
 }
 
 .rn {
-  background-color: rgba(0, 0, 0, 0.6);
+  /* background-color: rgba(0, 0, 0, 0.6); */
   border-radius: 2px;
-  border: 1px solid black;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  border: 1px solid;
+  transition: all 0.3s ease-in-out;
 }
 
 .mt {
   font-weight: bold;
   color: silver;
   text-shadow: black 0 0 1px;
+  transition: all 0.3s ease-in-out;
 }
 
 .tc {
@@ -200,7 +248,6 @@ th {
   text-align: center;
   color: white;
   font-weight: bold;
-  box-shadow: 0 4px 15px rgba(0, 50, 255, 0.4);
   height: 90%;
   width: 90%;
   margin: auto;
@@ -216,7 +263,6 @@ th {
   text-align: center;
   color: white;
   font-weight: bold;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
   height: 90%;
   width: 98%;
   margin: auto;
@@ -263,7 +309,6 @@ th {
   text-align: center;
   color: white;
   font-weight: bold;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   height: 90%;
   width: 90%;
   margin: auto;
@@ -324,31 +369,31 @@ th {
         </tr>
         <tr>
           <th colspan="3">
-            <div class="rn">{{ getRoundById(8)?.description }}</div>
+            <div class="rn" :style="getBgClass(8)">{{ getRoundById(8)?.description }}</div>
           </th>
           <th colspan="2"></th>
           <th colspan="3">
-            <div class="rn">{{ getRoundById(9)?.description }}</div>
+            <div class="rn" :style="getBgClass(9)">{{ getRoundById(9)?.description }}</div>
           </th>
           <th colspan="2"></th>
           <th colspan="3">
-            <div class="rn">{{ getRoundById(10)?.description }}</div>
+            <div class="rn" :style="getBgClass(10)">{{ getRoundById(10)?.description }}</div>
           </th>
           <th colspan="2"></th>
           <th colspan="3">
-            <div class="rn">{{ getRoundById(11)?.description }}</div>
+            <div class="rn" :style="getBgClass(11)">{{ getRoundById(11)?.description }}</div>
           </th>
           <th colspan="2"></th>
           <th colspan="3">
-            <div class="rn">{{ getRoundById(12)?.description }}</div>
+            <div class="rn" :style="getBgClass(12)">{{ getRoundById(12)?.description }}</div>
           </th>
           <th colspan="2"></th>
           <th colspan="3">
-            <div class="rn">{{ getRoundById(13)?.description }}</div>
+            <div class="rn" :style="getBgClass(13)">{{ getRoundById(13)?.description }}</div>
           </th>
           <th colspan="2"></th>
           <th colspan="3">
-            <div class="rn">{{ getRoundById(14)?.description }}</div>
+            <div class="rn" :style="getBgClass(14)">{{ getRoundById(14)?.description }}</div>
           </th>
         </tr>
 
