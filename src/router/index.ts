@@ -9,7 +9,8 @@ import FinalPlacementView from '@/views/FinalPlacementView.vue'
 import TargetCode from '@/overlays/TargetCode.vue'
 import ShowcaseRoundResultView from '@/views/ShowcaseRoundResultView.vue'
 import ShowCaseView from '@/views/ShowCaseView.vue'
-import ShowcasePlacement from '@/views/ShowcasePlacementView.vue'
+import ShowcasePlacementView from '@/views/ShowcasePlacementView.vue'
+import ShowcaseTreeView from '@/views/ShowcaseTreeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,7 +27,7 @@ const router = createRouter({
     },
     {
       path: '/results/rounds/:id',
-      name: 'results by round TODO: auf /results ändern später',
+      name: 'results by round',
       component: RoundResultView,
     },
     {
@@ -37,7 +38,12 @@ const router = createRouter({
     {
       path: '/showcase/placement',
       name: 'showcase: current placement',
-      component: ShowcasePlacement,
+      component: ShowcasePlacementView,
+    },
+    {
+      path: '/showcase/tree',
+      name: 'showcase: final tree',
+      component: ShowcaseTreeView,
     },
     {
       path: '/showcase',

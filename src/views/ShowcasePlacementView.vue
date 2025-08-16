@@ -30,6 +30,9 @@ const loadCurrentRound = async (): Promise<CurrentRoundResponse> => {
     if (response.status === 404) {
       response = await fetch('/api/rounds/active?direction=LAST')
     }
+    if (response.status === 404) {
+      response = await fetch('/api/rounds/active?direction=NEXT')
+    }
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
